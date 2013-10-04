@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../Plantillas/template.xhtml">
+
+            <ui:define name="title">
+                Registrar Usuario
+            </ui:define>
+
+            <ui:define name="left">
+                Carpetas Públicas
+                Registrados: 
+            </ui:define>
+
+            <ui:define name="content">
+                <h:outputScript library="js" name="wizard.js" />
+                <h:form id="formRegistrar">
+                    <p:panel id="panel" header="Registrar">
+                        <p:wizard id="asistente" nextLabel="Seguir" backLabel="Atrás" 
+                                  widgetVar="wiz" onnext="wizardNext();">
+                            <p:tab id="datosUsuario" title="Datos de Usuario">
+                                <p:messages/>
+                                <h:panelGrid id="campos1" columns="2">
+                                    <p:outputLabel id="lblUsuario" value="Nombre de Usuario" for="usuario"/>
+                                    <p:inputText id="usuario" value="${registrarBean.usuario}" required="true">
+                                        <f:validator validatorId="usuarioValidator"/>
+                                    </p:inputText>
+
+                                    <p:outputLabel id="lblClave" value="Clave" for="clave"/>
+                                    <p:password id="clave" value="${registrarBean.clave}" feedback="true"
+                                                promptLabel="Escribe una clave" weakLabel="Débil"
+                                                goodLabel="Buena" strongLabel="Muy Buena"
+                                                match="claveRepetir" required="true" validatorMessage="Las claves no concuerdan"/> 
+                                    
+                                    <p:outputLabel id="lblClaveRepetir" value="Reescribir la clave" for="claveRepetir"/>
+                                    <p:password id="claveRepetir" value="${registrarBean.clave}" required="true"/>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab id="datosPersonales" title="Datos Personales">
+                                <p:messages/>
+                                <h:panelGrid id="campos2" columns="2">
+                                    <p:outputLabel id="lblNombres" value="Nombres" for="nombres"/>
+                                    <p:inputText id="nombres" value="${registrarBean.nombres}"/>
+
+                                    <p:outputLabel id="lblApellidoPaterno" value="Apellido Paterno" for="apellidoPaterno"/>
+                                    <p:inputText id="apellidoPaterno" value="${registrarBean.apellidoPaterno}"/>
+                                    
+                                    <p:outputLabel id="lblApellidoMaterno" value="Apellido Materno" for="apellidoMaterno"/>
+                                    <p:inputText id="apellidoMaterno" value="${registrarBean.apellidoMaterno}"/>
+                                                                        
+                                    <p:outputLabel id="lblFechaNac" value="Fecha de Nacimiento" for="fechaNac"/>
+                                    <p:calendar id="fechaNac" navigator="true" locale="es" value="${registrarBean.fechaNac}" size="8"/>
+                                    
+                                    <p:outputLabel id="lblDni" value="D.N.I." for="dni"/>
+                                    <p:inputText id="dni" value="${registrarBean.dni}" 
+                                                 required="true" size="8" maxlength="8">
+                                        <f:validator validatorId="dniValidator"/>
+                                    </p:inputText>
+                                </h:panelGrid>
+                            </p:tab>                            
+                            <p:tab id="datosCorreo" title="Datos de Correo">
+                                <p:messages/>
+                                <h:panelGrid id="campos3" columns="2">
+                                    <p:outputLabel id="lblCorreoPersonal" value="Correo Personal" for="correoPersonal"/>
+                                    <p:inputText id="correoPersonal" value="${registrarBean.correoPersonal}">
+                                        <f:validator validatorId="emailPersonalValidator"/>
+                                    </p:inputText>
+
+                                    <p:outputLabel id="lblCorreoInstitucional" value="Correo Institucional" for="correoInstitucional"/>
+                                    <p:inputText id="correoInstitucional" value="${registrarBean.correoInstitucional}">
+                                        <f:validator validatorId="emailInstitucionalValidator"/>
+                                    </p:inputText>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab id="confirmacion" title="Confirmación">
+                                <p:messages/>
+                                <h:panelGrid id="campos4" columns="2">
+                                    <p:outputLabel id="lblUsuarioConf" value="Usuario:" for="usuarioConf"/>
+                                    <h:outputText id="usuarioConf" value="${registrarBean.usuario}"/>
+                                    
+                                    <p:outputLabel id="lblNombreConf" value="Nombre:" for="nombreConf"/>
+                                    <h:outputText id="nombreConf" value="${registrarBean.nombres} ${registrarBean.apellidoPaterno} ${registrarBean.apellidoMaterno}"/>
+                                  
+                                    <p:outputLabel id="lblFechaNacConf" value="Fecha de Nacimiento:" for="fechaNacConf"/>
+                                    <h:outputText id="fechaNacConf" value="${registrarBean.fechaNacFormteado}"/>
+                                    
+                                    <p:outputLabel id="lblDniConf" value="D.N.I.:" for="dniConf"/>
+                                    <h:outputText id="dniConf" value="${registrarBean.dni}"/>
+                                    
+                                    <p:outputLabel id="lblCorreosConf" value="Correos:" for="correosConf"/>
+                                    <h:panelGrid id="correosConf" columns="1">
+                                        <h:outputText id="correoPersonalConf" value="${registrarBean.correoPersonal}"/>
+                                        <h:outputText id="correoInstitucionalConf" value="${registrarBean.correoInstitucional}"/>
+                                    </h:panelGrid>
+                                    
+                                    <h:panelGroup/>
+                                    <p:commandButton id="btnEnviar" value="Enviar" 
+                                                     action="${registrarBean.registrar()}" ajax="false"/>
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:wizard>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

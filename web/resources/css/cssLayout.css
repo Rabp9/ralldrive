@@ -1,0 +1,90 @@
+
+#top {
+    position: relative;
+    background-color: #036fab;
+    text-align: center;
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #c2dfef;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+#left {
+    float: left;
+    background-color: #036FAB;
+    color: #fff;
+    width: 18%;
+}
+
+#right {
+    float: right;
+    background-color: #ece3a5;
+    padding: 5px;
+    width: 150px;
+}
+
+.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 5px;
+}
+
+.left_content {
+    background-color: #BEE8F8;
+    padding: 5px;
+    width: 78%;
+    float: left;
+    margin-left: 2%;
+}
+
+.right_content {
+    background-color: #dddddd;
+    padding: 5px;
+    margin: 0px 170px 0px 170px;
+}
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+/* Mis estilos*/
+
+.centrar {
+    text-align: center;
+}
+
+.invisible {
+    visibility: collapse;
+    height: 0px;
+}
+
+#container {
+    background-color: #b2d5d6;
+    padding: 5%;
+    height: 86%;
+    width: 900px;
+    margin: 0 auto;
+}
+
+.menuLateral {
+    width: 95%;
+}
+
+#lc {
+    overflow: hidden;
+    padding: 0;
+}
