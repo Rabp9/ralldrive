@@ -19,14 +19,14 @@
                 <h:form id="nodos">
                     <p:outputLabel id="lblUsuario" value="Usuario: "/>
                     <h:outputText id="usuario" value="${loginBean.usuario}"/>
-                    <p:tree id="arbolCarpetas" value="${loginBean.root}" 
-                            var="carpeta" selectionMode="single"
-                            selection="${loginBean.selectedNode}">
+                    <p:tree id="arbolCarpetas" value="${loginBean.root}"  
+                        var="carpeta" selectionMode="single"
+                        selection="${loginBean.selectedNode}">
                         <p:ajax event="select" listener="${loginBean.onNodeSelect}"
-                                update="_form_carpetaPanel"/>
+                            update="_formHome_carpetaPanel"/>
 
                         <p:treeNode expandedIcon="ui-icon-folder-open"
-                                    collapsedIcon="ui-icon-folder-collapsed">
+                            collapsedIcon="ui-icon-folder-collapsed">
                             <h:outputText value="${carpeta.nombre}"/>
                         </p:treeNode>
 
@@ -38,68 +38,20 @@
             </ui:define>
 
             <ui:define name="content">
-                <h:form id="form" enctype="multipart/form-data">
+                <h:form id="formHome" enctype="multipart/form-data">
                     <p:panel id="carpetaPanel" header="${loginBean.selectedNode.data.nombre}">
                         <h:messages layout="table" />
                         <p:fileUpload id="fileUpload" fileUploadListener="${loginBean.upload}" multiple="true"
-                            sizeLimit="10000000" invalidFileMessage="fichero inválido" invalidSizeMessage="ha excedido el tamaño máximo permitido"
-                            label="Seleccionar archivo" cancelLabel="Cancelar" uploadLabel="Subir" update="_form_carpetaPanel">
+                           sizeLimit="10000000" invalidFileMessage="fichero inválido" invalidSizeMessage="ha excedido el tamaño máximo permitido"
+                           label="Seleccionar archivo" cancelLabel="Cancelar" uploadLabel="Subir" update="_formHome_carpetaPanel">
                         </p:fileUpload>
-                     
+                        
                         <p:dialog widgetVar="crearCarpetaDialog" modal="true" header="Nombre de Carpeta">
                             <p:inputText id="carpetaNueva" value="${loginBean.nuevaCarpeta}"/>
-                            <p:commandButton update="_nodos_arbolCarpetas, _form_carpetaPanel" value="Crear" action="${loginBean.crearCarpeta}"/>
+                            <p:commandButton id="btnCrearCarpeta" update="_nodos_arbolCarpetas, _formHome_carpetaPanel" value="Crear" action="${loginBean.crearCarpeta}"/>
                         </p:dialog>
                         <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()" />
-                        <p:commandButton action="${loginBean.subirCarpeta}" update="_nodos_arbolCarpetas, _form_carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
-                      
-                        <p:dialog widgetVar="opcionesDialog" modal="true" header="Elegir una acción" width="280px" height="150px">
-                            <p:menu id="mnOpciones">
-                               <p:submenu label="Acciones">
-                                    <p:menuitem icon="ui-icon-disk" value="Descargar" ajax="false" actionListener="${loginBean.download(loginBean.selectedRow)}">
-                                         <p:fileDownload value="${loginBean.file}" />
-                                    </p:menuitem>
-                                    <p:menuitem icon="ui-icon-search" value="Mostrar" action="${loginBean.mostrar(recurso)}" ajax="false" target="_blank" partialSubmit="false"/>
-                                    <p:menuitem icon="ui-icon-close" value="Eliminar" url="http://prototypejs.org"/>
-                               </p:submenu>  
-                            </p:menu>
-                        </p:dialog>
                         
-                        <p:dataTable id="tablaRecursos" value="${loginBean.recursos}" 
-                            var="recurso" selectionMode="single" rowKey="${recurso.id}"
-                            selection="${loginBean.selectedRow}" scrollable="true"
-                            scrollHeight="400" emptyMessage="Carpeta Vacia">
-                            
-                            <p:ajax event="rowSelect" listener="${loginBean.onRowSelect}"
-                                    update="_form_carpetaPanel" />
-                           
-                            <p:column headerText="Nombre" filterBy="${recurso.nombre}">  
-                                <h:outputText value="${recurso.nombre}" />
-                            </p:column>
-                            <p:column headerText="Fecha" filterBy="${recurso.fecha}" filterOptions="${loginBean.fechasPosibles}">
-                                <h:outputText value="${recurso.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
-                            </p:column>
-                       <!--     <p:column headerText="Opcion" width="300">
-                            
-                                <p:commandButton value="Descargar" ajax="false"
-                                                 actionListener="${loginBean.download(recurso)}" icon="ui-icon-arrowthick-1-s" rendered="${recurso.tipo eq 'Archivo'}">
-                                    <p:fileDownload value="${loginBean.file}" />
-                                </p:commandButton>
-                                |
-                                <p:commandLink action="${loginBean.mostrar(recurso)}" value="Mostrar" rendered="${recurso.tipo eq 'Archivo'}" 
-                                               ajax="false" target="_blank" partialSubmit="false"/>
-                                <p:commandButton value="Abrir" ajax="false"
-                                                 actionListener="${loginBean.open(recurso)}" icon="ui-icon-arrowthichk-s" rendered="${recurso.tipo eq 'Carpeta'}"/>
-                                
-                            </p:column>
-                            -->
-                            <p:column>
-                                <p:commandButton icon="ui-icon-search" oncomplete="opcionesDialog.show()">
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable>
                     </p:panel>
                 </h:form>
             </ui:define>

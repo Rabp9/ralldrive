@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -397,7 +396,11 @@ public class LoginBean implements Serializable{
         }
         return "";
     }
-
+    
+    public  List<SelectItem> getFechasPosibles() {
+        List<SelectItem> fechasPosibles = ujc.getFechasPosibles(u.getIdUsuario()); 
+        return fechasPosibles;
+    }
 }
 
 

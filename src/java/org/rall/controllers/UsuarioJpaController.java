@@ -284,7 +284,7 @@ public class UsuarioJpaController implements Serializable {
         return recursos;
     }  
     
-    public List<SelectItem> findFechasPosibles(int usuario) {
+    public List<SelectItem> getFechasPosibles(int usuario) {
         EntityManager em = getEntityManager();
         List<Object[]> objs = em.createNativeQuery("call SP_FECHASPOSIBLES(?)").setParameter(1, usuario).getResultList();
         List<SelectItem> fechasPosibles = new ArrayList<SelectItem>();
