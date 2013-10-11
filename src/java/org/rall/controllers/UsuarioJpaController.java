@@ -5,6 +5,7 @@
 package org.rall.controllers;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
@@ -284,15 +285,17 @@ public class UsuarioJpaController implements Serializable {
         return recursos;
     }  
     
-    public List<SelectItem> getFechasPosibles(int usuario) {
+   /*
+   public List<SelectItem> getFechasPosibles(int usuario) {
         EntityManager em = getEntityManager();
         List<Object[]> objs = em.createNativeQuery("call SP_FECHASPOSIBLES(?)").setParameter(1, usuario).getResultList();
         List<SelectItem> fechasPosibles = new ArrayList<SelectItem>();
         for (Object[] obj : objs)
         {
-            String fecha = String.valueOf(obj[0]);
+            Timestamp fecha = Timestamp.valueOf(String.valueOf(obj[0]));
             fechasPosibles.add(new SelectItem(fecha));
         }
         return fechasPosibles;
     }
+    */
 }

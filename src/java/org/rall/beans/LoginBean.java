@@ -397,10 +397,15 @@ public class LoginBean implements Serializable{
         return "";
     }
     
+    public String m() {
+        return "hola";
+    }
+    /*
     public  List<SelectItem> getFechasPosibles() {
         List<SelectItem> fechasPosibles = ujc.getFechasPosibles(u.getIdUsuario()); 
         return fechasPosibles;
     }
+    */
 }
 
 

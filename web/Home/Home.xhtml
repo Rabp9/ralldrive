@@ -52,6 +52,40 @@
                         </p:dialog>
                         <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()" />
                         
+                        <p:commandButton id="btnSubirCarpeta" action="${loginBean.subirCarpeta}" update="_nodos_arbolCarpetas, _formHome_carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
+                    
+                        <p:dialog widgetVar="opcionesDialog" modal="true" header="Elegir una acción" width="280px" height="150px">
+                            <p:menu id="mnOpciones">
+                                <p:menuitem icon="ui-icon-disk" value="Descargar" ajax="false" actionListener="${loginBean.download(loginBean.selectedRow)}">
+                                    <p:fileDownload value="${loginBean.file}" />
+                                </p:menuitem>
+                                <p:menuitem icon="ui-icon-search" value="Mostrar" outcome="${loginBean.mostrar(loginBean.selectedRow)}" target="_blank"/>
+                                <p:menuitem icon="ui-icon-close" value="Eliminar" url="http://prototypejs.org"/>
+                            </p:menu>
+                        </p:dialog>
+                        
+                         <p:dataTable id="tablaRecursos" value="${loginBean.recursos}" 
+                            var="recurso" selectionMode="single" rowKey="${recurso.id}"
+                            selection="${loginBean.selectedRow}" scrollable="true"
+                            scrollHeight="400" emptyMessage="Carpeta Vacia">
+                             
+                            <p:ajax event="rowSelect" listener="${loginBean.onRowSelect}"
+                                update="_formHome_carpetaPanel" />
+                            
+                            <p:column headerText="Nombre" filterBy="${recurso.nombre}">  
+                                <h:outputText value="${recurso.nombre}" />
+                            </p:column>
+                            
+                            <p:column headerText="Fecha" filterBy="${recurso.fecha}">
+                                <h:outputText value="${recurso.fecha}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            
+                            <f:facet name="footer">  
+                                <p:commandButton icon="ui-icon-search" oncomplete="opcionesDialog.show()"/>
+                            </f:facet>  
+                         </p:dataTable>
                     </p:panel>
                 </h:form>
             </ui:define>
