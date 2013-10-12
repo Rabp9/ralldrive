@@ -296,13 +296,11 @@ public class LoginBean implements Serializable{
     
     public void onRowSelect(SelectEvent event) {
         Recurso recurso = (Recurso) event.getObject();
+        System.out.println("El nombre del recurso es: " + recurso.getNombre());
         selectedRow = recurso;
         if(recurso.getTipo().equals("Carpeta")) {
             selectedNode = findNode(root, selectedRow);
             recursos = ujc.findRecursos(selectedRow.getId());
-        }
-        if(recurso.getTipo().equals("Archivo")) {
-            
         }
     }
     
@@ -385,6 +383,9 @@ public class LoginBean implements Serializable{
     }
     
     public String mostrar(Recurso recurso) {
+        if(recurso == null) {
+            return "Index";
+        }
         String extension = getExtension(recurso.getNombre());
         setArchivoMostrar(getDestination() + delimitador + usuario + delimitador + calcularUbicacion((Carpeta) selectedNode.getData()) + recurso.getNombre());
         setNombre(recurso.getNombre());
@@ -394,7 +395,7 @@ public class LoginBean implements Serializable{
         if(extension.toLowerCase().equals("dbf")) {
             return "/Views/DBFView?faces-redirect=true";
         }
-        return "";
+        return "Index";
     }
     
     public String m() {

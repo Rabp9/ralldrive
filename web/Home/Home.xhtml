@@ -23,7 +23,7 @@
                         var="carpeta" selectionMode="single"
                         selection="${loginBean.selectedNode}">
                         <p:ajax event="select" listener="${loginBean.onNodeSelect}"
-                            update="_formHome_carpetaPanel"/>
+                            update="_formHome"/>
 
                         <p:treeNode expandedIcon="ui-icon-folder-open"
                             collapsedIcon="ui-icon-folder-collapsed">
@@ -38,22 +38,26 @@
             </ui:define>
 
             <ui:define name="content">
-                <h:form id="formHome" enctype="multipart/form-data">
-                    <p:panel id="carpetaPanel" header="${loginBean.selectedNode.data.nombre}">
-                        <h:messages layout="table" />
+                <p:panel id="carpetaPanel" header="${loginBean.selectedNode.data.nombre}">
+                    <h:form id="frmOpciones">
+                        <p:growl id="grwErrores"/>
                         <p:fileUpload id="fileUpload" fileUploadListener="${loginBean.upload}" multiple="true"
                            sizeLimit="10000000" invalidFileMessage="fichero inválido" invalidSizeMessage="ha excedido el tamaño máximo permitido"
-                           label="Seleccionar archivo" cancelLabel="Cancelar" uploadLabel="Subir" update="_formHome_carpetaPanel">
+                           label="Seleccionar archivo" cancelLabel="Cancelar" uploadLabel="Subir" update="_formHome">
                         </p:fileUpload>
                         
                         <p:dialog widgetVar="crearCarpetaDialog" modal="true" header="Nombre de Carpeta">
-                            <p:inputText id="carpetaNueva" value="${loginBean.nuevaCarpeta}"/>
+                            <p:inputText id="carpetaNueva" label="Carpeta Nueva" value="${loginBean.nuevaCarpeta}">
+                                <f:validateLength minimum="1" />  
+                            </p:inputText>
                             <p:commandButton id="btnCrearCarpeta" update="_nodos_arbolCarpetas, _formHome_carpetaPanel" value="Crear" action="${loginBean.crearCarpeta}"/>
                         </p:dialog>
-                        <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()" />
+                        <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()"/>
                         
                         <p:commandButton id="btnSubirCarpeta" action="${loginBean.subirCarpeta}" update="_nodos_arbolCarpetas, _formHome_carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
-                    
+                    </h:form>
+                        
+                    <h:form id="formHome" enctype="multipart/form-data">
                         <p:dialog widgetVar="opcionesDialog" modal="true" header="Elegir una acción" width="280px" height="150px">
                             <p:menu id="mnOpciones">
                                 <p:menuitem icon="ui-icon-disk" value="Descargar" ajax="false" actionListener="${loginBean.download(loginBean.selectedRow)}">
@@ -64,10 +68,10 @@
                             </p:menu>
                         </p:dialog>
                         
-                         <p:dataTable id="tablaRecursos" value="${loginBean.recursos}" 
+                        <p:dataTable id="tablaRecursos" value="${loginBean.recursos}" 
                             var="recurso" selectionMode="single" rowKey="${recurso.id}"
                             selection="${loginBean.selectedRow}" scrollable="true"
-                            scrollHeight="400" emptyMessage="Carpeta Vacia">
+                            scrollHeight="250" emptyMessage="Carpeta Vacia">
                              
                             <p:ajax event="rowSelect" listener="${loginBean.onRowSelect}"
                                 update="_formHome_carpetaPanel" />
@@ -86,8 +90,8 @@
                                 <p:commandButton icon="ui-icon-search" oncomplete="opcionesDialog.show()"/>
                             </f:facet>  
                          </p:dataTable>
-                    </p:panel>
-                </h:form>
+                    </h:form>
+                </p:panel>
             </ui:define>
         </ui:composition>
     </body>
