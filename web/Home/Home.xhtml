@@ -16,20 +16,19 @@
             </ui:define>
 
             <ui:define name="left">
-                <h:form id="nodos">
+                <h:form id="formNodos">
                     <p:outputLabel id="lblUsuario" value="Usuario: "/>
                     <h:outputText id="usuario" value="${loginBean.usuario}"/>
                     <p:tree id="arbolCarpetas" value="${loginBean.root}"  
                         var="carpeta" selectionMode="single"
                         selection="${loginBean.selectedNode}">
                         <p:ajax event="select" listener="${loginBean.onNodeSelect}"
-                            update="_formHome"/>
+                            update="_carpetaPanel"/>
 
                         <p:treeNode expandedIcon="ui-icon-folder-open"
                             collapsedIcon="ui-icon-folder-collapsed">
                             <h:outputText value="${carpeta.nombre}"/>
                         </p:treeNode>
-
                         <p:treeNode type="image" icon="ui-icon-folder">
                             <h:outputText value="${carpeta.nombre}"/>
                         </p:treeNode>
@@ -39,25 +38,26 @@
 
             <ui:define name="content">
                 <p:panel id="carpetaPanel" header="${loginBean.selectedNode.data.nombre}">
-                    <h:form id="frmOpciones">
-                        <p:growl id="grwErrores"/>
+                    <p:growl id="grwErrores"/>
+                    <h:form id="formUpload">
                         <p:fileUpload id="fileUpload" fileUploadListener="${loginBean.upload}" multiple="true"
                            sizeLimit="10000000" invalidFileMessage="fichero inválido" invalidSizeMessage="ha excedido el tamaño máximo permitido"
-                           label="Seleccionar archivo" cancelLabel="Cancelar" uploadLabel="Subir" update="_formHome">
+                           label="Seleccionar archivo" cancelLabel="Cancelar" uploadLabel="Subir" update="_carpetaPanel">
                         </p:fileUpload>
-                        
+                    </h:form>
+                    
+                    <h:form id="formCrearCarpeta">
                         <p:dialog widgetVar="crearCarpetaDialog" modal="true" header="Nombre de Carpeta">
                             <p:inputText id="carpetaNueva" label="Carpeta Nueva" value="${loginBean.nuevaCarpeta}">
                                 <f:validateLength minimum="1" />  
                             </p:inputText>
-                            <p:commandButton id="btnCrearCarpeta" update="_nodos_arbolCarpetas, _formHome_carpetaPanel" value="Crear" action="${loginBean.crearCarpeta}"/>
+                            <p:commandButton id="btnCrearCarpeta" update="_formNodos_arbolCarpetas, _carpetaPanel" value="Crear" action="${loginBean.crearCarpeta}"/>
                         </p:dialog>
                         <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()"/>
-                        
-                        <p:commandButton id="btnSubirCarpeta" action="${loginBean.subirCarpeta}" update="_nodos_arbolCarpetas, _formHome_carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
                     </h:form>
-                        
-                    <h:form id="formHome" enctype="multipart/form-data">
+                    
+                    <h:form id="formHome" enctype="multipart/form-data">       
+                        <p:commandButton id="btnSubirCarpeta" action="${loginBean.subirCarpeta}" update="_formNodos_arbolCarpetas, _carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
                         <p:dialog widgetVar="opcionesDialog" modal="true" header="Elegir una acción" width="280px" height="150px">
                             <p:menu id="mnOpciones">
                                 <p:menuitem icon="ui-icon-disk" value="Descargar" ajax="false" actionListener="${loginBean.download(loginBean.selectedRow)}">
@@ -74,7 +74,7 @@
                             scrollHeight="250" emptyMessage="Carpeta Vacia">
                              
                             <p:ajax event="rowSelect" listener="${loginBean.onRowSelect}"
-                                update="_formHome_carpetaPanel" />
+                                update="_carpetaPanel" />
                             
                             <p:column headerText="Nombre" filterBy="${recurso.nombre}">  
                                 <h:outputText value="${recurso.nombre}" />
