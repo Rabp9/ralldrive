@@ -16,23 +16,32 @@
             </ui:define>
 
             <ui:define name="left">
+                <h:form id="formPanelControl">
+                    <p:panel id="pnlPanelControl" header="${loginBean.usuario}">
+                        <p:menu id="mnPanelControl">
+                            <p:menuitem value="Configuración de cuenta" icon="ui-icon-folder"/>
+                            <p:menuitem value="Cambiar contraseña" icon="ui-icon-folder"/>
+                            <p:menuitem value="Cerrar sesión" icon="ui-icon-folder"/>
+                        </p:menu>
+                    </p:panel>
+                </h:form>
                 <h:form id="formNodos">
-                    <p:outputLabel id="lblUsuario" value="Usuario: "/>
-                    <h:outputText id="usuario" value="${loginBean.usuario}"/>
-                    <p:tree id="arbolCarpetas" value="${loginBean.root}"  
-                        var="carpeta" selectionMode="single"
-                        selection="${loginBean.selectedNode}">
-                        <p:ajax event="select" listener="${loginBean.onNodeSelect}"
-                            update="_carpetaPanel"/>
+                    <p:panel id="pnlNodos" header="Mi RallDrive">
+                        <p:tree id="arbolCarpetas" value="${loginBean.root}"  
+                            var="carpeta" selectionMode="single"
+                            selection="${loginBean.selectedNode}">
+                            <p:ajax event="select" listener="${loginBean.onNodeSelect}"
+                                update="_carpetaPanel"/>
 
-                        <p:treeNode expandedIcon="ui-icon-folder-open"
-                            collapsedIcon="ui-icon-folder-collapsed">
-                            <h:outputText value="${carpeta.nombre}"/>
-                        </p:treeNode>
-                        <p:treeNode type="image" icon="ui-icon-folder">
-                            <h:outputText value="${carpeta.nombre}"/>
-                        </p:treeNode>
-                    </p:tree>
+                            <p:treeNode expandedIcon="ui-icon-folder-open"
+                                collapsedIcon="ui-icon-folder-collapsed">
+                                <h:outputText value="${carpeta.nombre}"/>
+                            </p:treeNode>
+                            <p:treeNode type="image" icon="ui-icon-folder">
+                                <h:outputText value="${carpeta.nombre}"/>
+                            </p:treeNode>
+                        </p:tree>
+                    </p:panel>
                 </h:form>
             </ui:define>
 
@@ -46,18 +55,18 @@
                         </p:fileUpload>
                     </h:form>
                     
-                    <h:form id="formCrearCarpeta">
+                    <h:form id="formControles">
                         <p:dialog widgetVar="crearCarpetaDialog" modal="true" header="Nombre de Carpeta">
                             <p:inputText id="carpetaNueva" label="Carpeta Nueva" value="${loginBean.nuevaCarpeta}">
                                 <f:validateLength minimum="1" />  
                             </p:inputText>
                             <p:commandButton id="btnCrearCarpeta" update="_formNodos_arbolCarpetas, _carpetaPanel" value="Crear" action="${loginBean.crearCarpeta}"/>
                         </p:dialog>
-                        <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()"/>
+                        <p:commandButton value="Crear Carpeta" onclick="crearCarpetaDialog.show()"/>  
+                        <p:commandButton id="btnSubirCarpeta" action="${loginBean.subirCarpeta}" update="_formNodos_arbolCarpetas, _carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
                     </h:form>
                     
                     <h:form id="formHome" enctype="multipart/form-data">       
-                        <p:commandButton id="btnSubirCarpeta" action="${loginBean.subirCarpeta}" update="_formNodos_arbolCarpetas, _carpetaPanel" icon="ui-icon-arrowreturnthick-1-n" />
                         <p:dialog widgetVar="opcionesDialog" modal="true" header="Elegir una acción" width="280px" height="150px">
                             <p:menu id="mnOpciones">
                                 <p:menuitem icon="ui-icon-disk" value="Descargar" ajax="false" actionListener="${loginBean.download(loginBean.selectedRow)}">
@@ -93,6 +102,7 @@
                     </h:form>
                 </p:panel>
             </ui:define>
+            
         </ui:composition>
     </body>
 </html>

@@ -19,7 +19,7 @@
     float: left;
     background-color: #036FAB;
     color: #fff;
-    width: 18%;
+    width: 26%;
 }
 
 #right {
@@ -38,7 +38,7 @@
 .left_content {
     background-color: #BEE8F8;
     padding: 5px;
-    width: 78%;
+    width: 70%;
     float: left;
     margin-left: 2%;
 }
@@ -76,7 +76,7 @@
     background-color: #b2d5d6;
     padding: 5%;
     height: 86%;
-    width: 900px;
+    width: 950px;
     margin: 0 auto;
 }
 

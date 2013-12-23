@@ -6,3 +6,19 @@
     width: 370px;
     margin: 0 auto;
 }
+
+#formPanelControl_pnlPanelControl_content {
+    padding: 0px;
+}
+
+#formPanelControl_mnPanelControl {
+    width: 96%;
+}
+
+#formNodos_pnlNodos_content {
+    padding: 0px;
+}
+
+#formNodos_arbolCarpetas {
+    width: 99%;
+}
